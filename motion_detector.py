@@ -1,4 +1,4 @@
-import cv2
+import cv2, pandas
 from datetime import datetime 
 # sets first frame = none to use it later
 first_frame = None
@@ -6,7 +6,12 @@ first_frame = None
 # time when obj enter and leave frame (added 2 items so python has values to pull before frames)
 status_list = [None, None]
 
+# array holding start and end time
 times = []
+
+# pandas dataframe
+df=pandas.DataFrame(columns=['Start', 'End'])
+
 # video obj with method for capturing video (0,1,2 = webcam or path to video)
 # Trigger camera
 video=cv2.VideoCapture(0)
@@ -85,12 +90,22 @@ while True:
 
     # if you press Q you quit
     if key == ord('q'):
+        # checks if object was in frame before exit
+        if status == 1:
+            times.append(datetime.now())
         break
 
 # prints status of frames 
 print(status_list)
 # prints time list
 print(times)
+
+# Loop over list and append to dataframe
+for i in range(0,len(times),2):
+    # appends the first item of times arr to Start col and second item to End column
+    df=df.append({'Start':times[i], 'End':times[i + 1]},ignore_index=True)
+# exports table to csv file
+df.to_csv('Motion_Times')
 # release camera
 video.release()
 # Closes window
