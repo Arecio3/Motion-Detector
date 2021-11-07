@@ -33,7 +33,7 @@ while True:
     # Filter contour to only keep obj that has a contour area more then 1000px
     for contour in cnts:
         # if contour ares is less than 1000px go to next one
-        if cv2.contourArea(contour) < 1000:
+        if cv2.contourArea(contour) < 10000:
             continue
         # If greater than 1000px create rectangle x,y,w,h = rectangle params 
         (x,y,w,h) = cv2.boundingRect(contour)
