@@ -105,7 +105,7 @@ for i in range(0,len(times),2):
     # appends the first item of times arr to Start col and second item to End column
     df=df.append({'Start':times[i], 'End':times[i + 1]},ignore_index=True)
 # exports table to csv file
-df.to_csv('Motion_Times')
+df.to_csv('Motion_Times.csv')
 # release camera
 video.release()
 # Closes window
