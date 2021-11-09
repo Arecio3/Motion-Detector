@@ -9,6 +9,7 @@ status_list = [None, None]
 # array holding start and end time
 times = []
 
+frames = 0
 # pandas dataframe
 df=pandas.DataFrame(columns=['Start', 'End'])
 
@@ -18,12 +19,13 @@ video=cv2.VideoCapture(0)
 
 # While Loop through Frame array and use imshow to show each frame in the array
 while True:
-
+    frames = frames + 1
     # Reads 1st Frame
     check, frame = video.read()
     # motion in current frame
     status = 0
 
+    print(frame)
     # Converts color frame to Grayscale
     gray=cv2.cvtColor(frame,cv2.COLOR_BGR2GRAY)
 
@@ -69,6 +71,9 @@ while True:
     # Adds frame to status list
     status_list.append(status)
 
+    # For memory we only grab last 2 status of frame
+    status_list = status_list[-2:]
+
     # Checks when last two items were 0 1 (when object entered)
     if status_list[-1] == 1 and status_list[-2] == 0:
         # grabs the time and date of moment
@@ -94,6 +99,8 @@ while True:
         if status == 1:
             times.append(datetime.now())
         break
+
+    # print(frames)
 
 # prints status of frames 
 print(status_list)
